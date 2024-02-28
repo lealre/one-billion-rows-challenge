@@ -121,7 +121,7 @@ def build_test_data(weather_station_names, num_rows_to_create):
 
 def main():
     """
-    main program function
+    main program functiondjsi
     """
     num_rows_to_create = 1000000
     weather_station_names = []
