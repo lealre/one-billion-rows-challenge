@@ -1,27 +1,28 @@
 import pandas as pd
 from multiprocessing import Pool, cpu_count
-from tqdm import tqdm  # importa o tqdm para barra de progresso
+from tqdm import tqdm  
+from pathlib import Path
+from src.timing_decorator import measure_time
 
 CONCURRENCY = cpu_count()
 
-total_linhas = 100_000_000  # Total de linhas conhecido
-chunksize = 10_000_000  # Define o tamanho do chunk
-filename = "data/measurements.txt"  # Certifique-se de que este é o caminho correto para o arquivo
-
-def process_chunk(chunk):
-    # Agrega os dados dentro do chunk usando Pandas
+number_of_rows: int = 1_000_000_000  
+chunksize: int = 50_000_000 
+ 
+def process_chunk(chunk: pd.DataFrame) -> pd.DataFrame:
     aggregated = chunk.groupby('station')['measure'].agg(['min', 'max', 'mean']).reset_index()
     return aggregated
 
-def create_df_with_pandas(filename, total_linhas, chunksize=chunksize):
-    total_chunks = total_linhas // chunksize + (1 if total_linhas % chunksize else 0)
+@measure_time
+def pandas_df(csv_path: Path, number_of_rows: int, chunksize: int = chunksize) -> pd.DataFrame:
+    total_chunks = number_of_rows // chunksize + (1 if number_of_rows % chunksize else 0)
     results = []
 
-    with pd.read_csv(filename, sep=';', header=None, names=['station', 'measure'], chunksize=chunksize) as reader:
-        # Envolvendo o iterador com tqdm para visualizar o progresso
+    with pd.read_csv(csv_path, sep=';', header=None, names=['station', 'measure'], chunksize=chunksize) as reader:
+
         with Pool(CONCURRENCY) as pool:
-            for chunk in tqdm(reader, total=total_chunks, desc="Processando"):
-                # Processa cada chunk em paralelo
+            for chunk in tqdm(reader, total=total_chunks, desc="Processing"):
+                # Process in parallel each chunk
                 result = pool.apply_async(process_chunk, (chunk,))
                 results.append(result)
 
@@ -38,12 +39,9 @@ def create_df_with_pandas(filename, total_linhas, chunksize=chunksize):
     return final_aggregated_df
 
 if __name__ == "__main__":
-    import time
+    csv_path: Path = "data/measurements.txt" 
 
-    print("Iniciando o processamento do arquivo.")
-    start_time = time.time()
-    df = create_df_with_pandas(filename, total_linhas, chunksize)
-    took = time.time() - start_time
+    print("Starting file processing.")
+    df = pandas_df(csv_path, number_of_rows, chunksize)
 
     print(df.head())
-    print(f"Processing took: {took:.2f} sec")

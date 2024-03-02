@@ -1,6 +1,8 @@
 import duckdb
 import time
+from timing_decorator import measure_time
 
+@measure_time
 def create_duckdb():
     duckdb.sql("""
         SELECT station,
@@ -13,8 +15,4 @@ def create_duckdb():
     """).show()
 
 if __name__ == "__main__":
-    import time
-    start_time = time.time()
     create_duckdb()
-    took = time.time() - start_time
-    print(f"Duckdb Took: {took:.2f} sec")
