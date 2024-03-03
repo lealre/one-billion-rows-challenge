@@ -2,7 +2,7 @@ import pandas as pd
 from multiprocessing import Pool, cpu_count
 from tqdm import tqdm  
 from pathlib import Path
-from src.timing_decorator import measure_time
+from timing_decorator import measure_time
 
 CONCURRENCY = cpu_count()
 
