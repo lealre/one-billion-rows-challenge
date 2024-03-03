@@ -2,7 +2,7 @@ from csv import reader
 from collections import defaultdict, Counter
 from tqdm import tqdm  # progress bar
 from pathlib import Path
-from src.timing_decorator import measure_time
+from timing_decorator import measure_time
 
 NUMBER_OF_ROWS = 1_000_000_000
 

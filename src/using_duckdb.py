@@ -1,5 +1,4 @@
 import duckdb
-import time
 from timing_decorator import measure_time
 
 @measure_time
