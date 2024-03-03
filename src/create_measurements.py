@@ -80,7 +80,7 @@ def estimate_file_size(weather_station_names, num_rows_to_create):
     total_file_size = num_rows_to_create * per_record_size
     human_file_size = convert_bytes(total_file_size)
 
-    return f"O tamanho estimado do arquivo é:  {human_file_size}.\nO tamanho final será provavelmente muito menor (metade)."
+    return f"File size is approximately:  {human_file_size}.\nFinal size will probably be smaller (half size)."
 
 
 def build_test_data(weather_station_names, num_rows_to_create):
@@ -93,7 +93,7 @@ def build_test_data(weather_station_names, num_rows_to_create):
     station_names_10k_max = random.choices(weather_station_names, k=10_000)
     batch_size = 10000 # instead of writing line by line to file, process a batch of stations and put it to disk
     progress_step = max(1, (num_rows_to_create // batch_size) // 100)
-    print('Criando o arquivo... isso vai demorar uns 10 minutos...')
+    print('Creating file... it will take about 10 minutes...')
 
     try:
         with open("./data/measurements.txt", 'w', encoding="utf-8") as file:
@@ -114,9 +114,9 @@ def build_test_data(weather_station_names, num_rows_to_create):
     file_size = os.path.getsize("./data/measurements.txt")
     human_file_size = convert_bytes(file_size)
  
-    print("Arquivo escrito com sucesso data/measurements.txt")
-    print(f"Tamanho final:  {human_file_size}")
-    print(f"Tempo decorrido: {format_elapsed_time(elapsed_time)}")
+    print("File created with success data/measurements.txt")
+    print(f"Final size:  {human_file_size}")
+    print(f"Time spent: {format_elapsed_time(elapsed_time)}")
 
 
 def main():
@@ -128,7 +128,7 @@ def main():
     weather_station_names = build_weather_station_name_list()
     print(estimate_file_size(weather_station_names, num_rows_to_create))
     build_test_data(weather_station_names, num_rows_to_create)
-    print("Arquivo de teste finalizado.")
+    print("Test file ended.")
 
 
 if __name__ == "__main__":
