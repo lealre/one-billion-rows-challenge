@@ -4,7 +4,7 @@ This repository represents Project 01 from the Data Engineering BOOTCAMP, where 
 
 From the original repository, a decorator function was implemented to measure the execution time of each script function responsible for reading the file. Minor structural adjustments, such as introducing a type hint in the path variable, were made to the scripts. Additionally, the Dask script was intentionally excluded, narrowing the comparison to Python (native structure), Pandas, Polars, and DuckDB.
 
-### Results
+## Results
 
 Machine specifications:
 * 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz  2.42 GHz
@@ -12,13 +12,13 @@ Machine specifications:
 
 |           Enviroment    | Execution Time   |
 |-------------------|------------------:|
-| Python            |      2797.19 s    |
-| Python + Pandas   |       396.06 s    |
-| Python + Polars   |        38.16 s    |
-| Python + Duckdb   |        33.43 s    |
+| Python            |      46 min 37 s    |
+| Python + Pandas   |       6 min 36 s    |
+| Python + Polars   |        38 s    |
+| Python + Duckdb   |        33 s    |
 
 
-### How To Run
+## How To Run
 
 How to execute this repository in a bash terminal using `pyenv` and `poetry`.
 
